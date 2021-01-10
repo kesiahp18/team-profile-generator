@@ -1,27 +1,29 @@
+const Employee = require('./lib/Employee');
+const Manager = require('./lib/Manager');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const teamArray = [];
 
-const inputEmployee = () => {
-    return inquirer
-    .prompt([
+const getEmployee = () => {
+    return inquirer.prompt([
         {
             type: 'input',
-            name: 'name',
-            message: "Please enter the employee's name: ",
+            name: 'nameInput',
+            message: "Please enter the manager's name: ",
             validate: nameInput => {
                 if (nameInput) {
                     return true;
                 }
                 else {
-                    console.log('Please enter the name of the employee!');
+                    console.log('Please enter the manager name!');
                     return false;
                 }
             }
         },
         {
             type: 'input',
-            name: 'id',
-            message: "Please enter the employee's ID: ",
+            name: 'idInput',
+            message: "Please enter their ID: ",
             validate: idInput => {
                 if (idInput) {
                     return true;
@@ -34,8 +36,8 @@ const inputEmployee = () => {
         },
         {
             type: 'input',
-            name: 'email',
-            message: "Please enter the employee's email: ",
+            name: 'emailInput',
+            message: "Please enter their email: ",
             validate: emailInput => {
                 if (emailInput) {
                     return true;
@@ -45,9 +47,48 @@ const inputEmployee = () => {
                     return false;
                 }
             }
+        },
+        {
+            name: 'role',
+            type: 'list',
+            message: "What is the role of this team member?",
+            choices: ["Manager", "Engineer", "Intern"],
+        },
+        {
+            name: 'office',
+            type: 'input',
+            message: "Please enter the manager's office number: ",
+            when: (answers) => answers.role === "Manager"
+        },
+        {
+            name: 'github',
+            type: 'input',
+            message: "Please input the engineer's gitHub username: ",
+            when: (answers) => answers.role === "Engineer"
+        },
+        {
+            name: 'school',
+            type: 'input', 
+            message: "Please input the name of the intern's school: ",
+            when: (answers) => answers.role === "Intern"
         }
+        
     ])
-    
+    .then(answers => {
+        if ((answers) => answers.role === "Manager") {
+            const manager = new Manager (answers.nameInput, answers.idInput, answers.emailInput, answers.office)
+            teamArray.push(manager);
+        }
+        else if((answers) => answers.role === "Engineer") {
+            const engineer = new Engineer (answers.nameInput, answers.idInput, answers.emailInput, answers.github)
+            teamArray.push(engineer);
+        }
+        else {
+            const intern = new Intern (answers.nameInput, answers.idInput, answers.emailInput, answers.school)
+            teamArray.push(intern);
+        }
+        console.log(teamArray);
+    })
 }
-inputEmployee()
-.then(answers => console.log(answers))
+
+getEmployee();
