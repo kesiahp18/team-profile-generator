@@ -1,5 +1,6 @@
-const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const teamArray = [];
@@ -75,15 +76,15 @@ const getEmployee = () => {
         
     ])
     .then(answers => {
-        if ((answers) => answers.role === "Manager") {
+        if (answers.role === 'Manager') {
             const manager = new Manager (answers.nameInput, answers.idInput, answers.emailInput, answers.office)
             teamArray.push(manager);
         }
-        else if((answers) => answers.role === "Engineer") {
+        if(answers.role === 'Engineer') {
             const engineer = new Engineer (answers.nameInput, answers.idInput, answers.emailInput, answers.github)
             teamArray.push(engineer);
         }
-        else {
+        if (answers.role === 'Intern'){
             const intern = new Intern (answers.nameInput, answers.idInput, answers.emailInput, answers.school)
             teamArray.push(intern);
         }
