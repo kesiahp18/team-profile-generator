@@ -3,6 +3,7 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const Employee = require('./lib/Employee');
 const teamArray = [];
 
 const getEmployee = () => {
@@ -10,13 +11,13 @@ const getEmployee = () => {
         {
             type: 'input',
             name: 'nameInput',
-            message: "Please enter the manager's name: ",
+            message: "Please enter the employee's name: ",
             validate: nameInput => {
                 if (nameInput) {
                     return true;
                 }
                 else {
-                    console.log('Please enter the manager name!');
+                    console.log("Please enter the employee's name!");
                     return false;
                 }
             }
@@ -89,7 +90,53 @@ const getEmployee = () => {
             teamArray.push(intern);
         }
         console.log(teamArray);
+        inquirer.prompt({
+            type: 'confirm',
+            name: 'confirmAdd',
+            message: "Would you like to add another employee?",
+            default: false
+        })
+        .then(({confirmAdd}) => {
+            if(!confirmAdd) {
+                console.log("done!")
+                createCard(teamArray);
+            } else {
+                getEmployee();
+            }
+        })
     })
+}
+
+const createCard = (team) => {
+    let cardArray = [];
+    team.forEach(member => {
+        const employeeCard = `
+            <div class="card">
+                <div class="card-header">${member.getName()}</div>
+                <div class="card-body"
+                    <h5 class="card-title">${member.getName()}</h5>
+                    <ul class="card-text">
+                        <li>ID: ${member.getId()}</li>
+                        <li>Email: ${member.getEmail()}</li>
+                        <li>${getRoleInfo(member)}</li>
+                    </ul>
+                </div>
+            </div>  
+        `
+        cardArray.push(employeeCard);
+    })
+    console.log(cardArray);
+}
+
+const getRoleInfo = (member) => {
+    switch (member.role) {
+        case "Manager":
+            return `Office number: ${member.getOffice()}`;
+        case "Engineer":
+            return `GitHub: <a href="https://github.com/${member.getGithub()}" target="_blank">${member.getGithub()}</a>`
+        case "Intern":
+            return `School: ${member.getSchool()}`
+    }
 }
 
 getEmployee();
