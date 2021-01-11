@@ -18,3 +18,5 @@ npm test
 ## Questions?
 If you have any questions send an email to kesiahp18@gmail.com to have your questions answered.
 Also visit my [GitHub profile](https://github.com/kesiahp18)
+
+![screenshot](./team-profile-generator-preview.png)
