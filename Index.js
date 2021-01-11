@@ -3,7 +3,6 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require('./lib/Employee');
 const teamArray = [];
 
 const getEmployee = () => {
@@ -108,13 +107,13 @@ const getEmployee = () => {
 }
 
 const createCard = (team) => {
-    let cardArray = [];
+    const cardArray = [];
     team.forEach(member => {
         const employeeCard = `
             <div class="card">
                 <div class="card-header">${member.getName()}</div>
-                <div class="card-body"
-                    <h5 class="card-title">${member.getName()}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">${member.getRole()}</h5>
                     <ul class="card-text">
                         <li>ID: ${member.getId()}</li>
                         <li>Email: ${member.getEmail()}</li>
@@ -125,8 +124,15 @@ const createCard = (team) => {
         `
         cardArray.push(employeeCard);
     })
-    console.log(cardArray);
+    cardArray.push(`    </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>`)
+    generateHTML(cardArray);
 }
+
 
 const getRoleInfo = (member) => {
     switch (member.role) {
@@ -137,6 +143,15 @@ const getRoleInfo = (member) => {
         case "Intern":
             return `School: ${member.getSchool()}`
     }
+}
+
+const generateHTML = cards => {
+    fs.copyFile('./src/page-template.html', './dist/index.html', err => {
+        if (err) throw err
+        fs.appendFile('./dist/index.html', cards.join(''), err => {
+            if (err) throw err
+        })
+    })
 }
 
 getEmployee();
