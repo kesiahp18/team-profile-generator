@@ -88,7 +88,6 @@ const getEmployee = () => {
             const intern = new Intern (answers.nameInput, answers.idInput, answers.emailInput, answers.school)
             teamArray.push(intern);
         }
-        console.log(teamArray);
         inquirer.prompt({
             type: 'confirm',
             name: 'confirmAdd',
@@ -116,7 +115,7 @@ const createCard = (team) => {
                     <h5 class="card-title">${member.getRole()}</h5>
                     <ul class="card-text">
                         <li>ID: ${member.getId()}</li>
-                        <li>Email: ${member.getEmail()}</li>
+                        <li>Email: <a href="mailto:${member.getEmail()}">${member.getEmail()}</a></li>
                         <li>${getRoleInfo(member)}</li>
                     </ul>
                 </div>
