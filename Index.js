@@ -135,7 +135,7 @@ const createCard = (team) => {
 
 
 const getRoleInfo = (member) => {
-    switch (member.role) {
+    switch (member.getRole()) {
         case "Manager":
             return `Office number: ${member.getOffice()}`;
         case "Engineer":
